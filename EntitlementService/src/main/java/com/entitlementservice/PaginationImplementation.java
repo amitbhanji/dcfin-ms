@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import com.repositoryservice.Entitlement;
+import com.repository.data.Entitlement;
 
 @Component
 public class PaginationImplementation implements PaginationService {

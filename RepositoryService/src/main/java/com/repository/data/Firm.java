@@ -1,4 +1,4 @@
-package com.repositoryservice;
+package com.repository.data;
 
 import java.time.LocalDateTime;
 

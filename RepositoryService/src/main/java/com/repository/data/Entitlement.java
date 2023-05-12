@@ -1,12 +1,17 @@
-package com.repositoryservice;
+package com.repository.data;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,7 +29,9 @@ public class Entitlement {
 	@Column(name="idp_entitlement_create_date")
 	private LocalDateTime createDateTime;
 	
-	
+	@JsonIgnore
+	@ManyToMany(mappedBy="entitlements")
+	private List<UserProfile> userProfiles;
 	public Entitlement()
 	{
 		
@@ -57,6 +64,12 @@ public class Entitlement {
 	public String toString() {
 		return "Entitlement [entitlementId=" + entitlementId + ", entitlementName=" + entitlementName
 				+ ", entitlementDescription=" + entitlementDescription + ", createDateTime=" + createDateTime + "]";
+	}
+	public List<UserProfile> getUserProfiles() {
+		return userProfiles;
+	}
+	public void setUserProfiles(List<UserProfile> userProfiles) {
+		this.userProfiles = userProfiles;
 	}
 	
 	

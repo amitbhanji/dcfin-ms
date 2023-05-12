@@ -2,7 +2,7 @@ package com.entitlementservice;
 
 import java.util.List;
 
-import com.repositoryservice.Entitlement;
+import com.repository.data.Entitlement;
 
 import jakarta.validation.constraints.Size;
 

@@ -2,7 +2,7 @@ package com.entitlementservice;
 
 import org.springframework.data.domain.Page;
 
-import com.repositoryservice.Entitlement;
+import com.repository.data.Entitlement;
 
 public interface PaginationService {
 

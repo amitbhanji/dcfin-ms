@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.repositoryservice.Entitlement;
+import com.repository.data.Entitlement;
+import com.repository.service.EntitlementJpaRepository;
 
 import jakarta.validation.Valid;
 

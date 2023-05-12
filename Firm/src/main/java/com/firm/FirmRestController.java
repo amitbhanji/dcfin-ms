@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.repositoryservice.Firm;
+import com.repository.data.Firm;
+import com.repository.service.FirmJpaRepository;
 
 
 

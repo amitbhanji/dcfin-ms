@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.entitlementservice.User;
+import com.repository.data.User;
+import com.repository.service.UserJpaRepository;
 
 import jakarta.validation.Valid;
 

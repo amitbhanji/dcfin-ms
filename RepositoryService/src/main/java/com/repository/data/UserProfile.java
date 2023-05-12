@@ -1,12 +1,22 @@
-package com.repositoryservice;
+package com.repository.data;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import org.hibernate.annotations.OnDelete;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,11 +34,30 @@ public class UserProfile {
 	@Column(name="idp_user_profile_name")
 	private String profileName;
 	
+	
+	
 	public UserProfile()
 	{
 		
 	}
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(
+			name="idp_entitlement_user_profiles",
+			joinColumns = @JoinColumn(name="idp_entitlement_user_profile_userprofile_id"),
+			inverseJoinColumns = @JoinColumn(name="idp_entitlement_user_profile_entitlement_id")
+			
+			)
+	private List<Entitlement> entitlements;
 	
+	public List<Entitlement> getEntitlements() {
+		return entitlements;
+	}
+
+	public void setEntitlements(List<Entitlement> entitlements) {
+		this.entitlements = entitlements;
+	}
+
 	public UserProfile(int id)
 	{
 		this.userProfileId=id;
