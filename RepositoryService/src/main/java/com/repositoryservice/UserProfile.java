@@ -1,4 +1,4 @@
-package com.userprofileservice;
+package com.repositoryservice;
 
 import java.time.LocalDateTime;
 

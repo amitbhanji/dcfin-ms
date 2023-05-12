@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.firm.Firm;
+import com.repositoryservice.Firm;
+
 
 
 @RestController
@@ -23,7 +24,7 @@ public class FirmRestController {
 	private FirmJpaRepository firmJpaRepositoryResource ;
 	
 	@GetMapping("/firms")
-	public List<Firm> retrieveProfiles()
+	public List<Firm> retrieveFirms()
 	{
 		return firmJpaRepositoryResource.findAll();
 	}
@@ -58,7 +59,7 @@ public class FirmRestController {
 	
 	
 	@DeleteMapping("/firm/{id}")
-	public void deleteProfileById(@PathVariable int id)
+	public void deleteFirmById(@PathVariable int id)
 	{
 		firmJpaRepositoryResource.deleteById(id);
 	}
