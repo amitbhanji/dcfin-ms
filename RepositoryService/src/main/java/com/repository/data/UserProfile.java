@@ -35,13 +35,12 @@ public class UserProfile {
 	private String profileName;
 	
 	
-	
-	public UserProfile()
+		public UserProfile()
 	{
 		
 	}
 	@JsonIgnore
-	@ManyToMany
+	@OneToMany
 	@JoinTable(
 			name="idp_entitlement_user_profiles",
 			joinColumns = @JoinColumn(name="idp_entitlement_user_profile_userprofile_id"),

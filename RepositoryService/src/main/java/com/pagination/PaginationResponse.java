@@ -1,15 +1,14 @@
-package com.entitlementservice;
+package com.pagination;
 
 import java.util.List;
 
-import com.repository.data.Entitlement;
+import org.springframework.stereotype.Component;
 
 import jakarta.validation.constraints.Size;
+@Component
+public class PaginationResponse<T> {
 
-
-public class PaginationResponse {
-
-	    private List<Entitlement> content;
+	    private List<T> content;
 	    private int pageNo;
 	    @Size(min=1,message="Page size must not be less than one")
 	    private int pageSize;
@@ -22,7 +21,7 @@ public class PaginationResponse {
 	    	
 	    }
 
-		public PaginationResponse(List<Entitlement> content, int pageNo, int pageSize, long totalElements,
+		public  PaginationResponse(List<T> content, int pageNo, int pageSize, long totalElements,
 				int totalPages, boolean last) {
 		
 			this.content = content;
@@ -33,8 +32,8 @@ public class PaginationResponse {
 			this.last = last;
 		}
 
-		public List<Entitlement> getContent() {
-			return content;
+		public List<T> getContent() {
+			return  content;
 		}
 
 		public int getPageNo() {

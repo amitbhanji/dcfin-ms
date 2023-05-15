@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pagination.PaginationImplementation;
+import com.pagination.PaginationResponse;
 import com.repository.data.Entitlement;
 import com.repository.service.EntitlementJpaRepository;
 
 import jakarta.validation.Valid;
+
 
 
 @RestController
@@ -32,28 +35,33 @@ public class EntitlementRestController {
 	private EntitlementJpaRepository entitlementJpaRepositoryResource ;
 	@Autowired
 	private PaginationImplementation paginationImplService;
-	
+	/*
 	@GetMapping("/entitlements")
 	public List<Entitlement> retrieveEntitlements()
 	{
 		Pageable firstPageWithfiveElements = PageRequest.of(0, 5);
-		Pageable secondPageWithfiveElements = PageRequest.of(1, 5);
+		//Pageable secondPageWithfiveElements = PageRequest.of(1, 5);
 		Page<Entitlement> pageObj= entitlementJpaRepositoryResource.findAll(firstPageWithfiveElements);
 		List<Entitlement> ents=		pageObj.getContent();
 		return ents;
 	}
-	
+	*/
 	@GetMapping("/records")
-	public PaginationResponse getAllEntitlements(@RequestParam int pageNo,@Valid @RequestParam int pageSize )throws Exception
+	public Page<Entitlement> getAllEntitlements(@RequestParam int pageNo,@Valid @RequestParam int pageSize )throws Exception
 	{
 	    Pageable records = PageRequest.of(pageNo, pageSize);
 	    Page<Entitlement> recordsList = entitlementJpaRepositoryResource.findAll(records);
-	    PaginationResponse resp=paginationImplService.getAllRecords(pageNo, pageSize,recordsList);
-	    return resp;
+	    //PaginationResponse<Entitlement> resp=paginationImplService.getAllRecords(pageNo, pageSize,recordsList);
+	    return recordsList;
 	    
 	   
 	}
-	
+
+	@GetMapping("/entitlements")
+	public List<Entitlement> getEntitlements()
+	{
+		return entitlementJpaRepositoryResource.findAll();
+	}
 	@GetMapping("/entitlement/{id}")
 	public Optional<Entitlement> retrieveEntitlementById(@PathVariable int id)throws Exception
 	{

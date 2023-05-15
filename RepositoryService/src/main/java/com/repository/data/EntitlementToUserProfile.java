@@ -48,6 +48,7 @@ public class EntitlementToUserProfile {
 			)
 	private List<Entitlement> entitlements;
 */
+
 	public int getEntitlementToUserProfileId() {
 		return EntitlementToUserProfileId;
 	}

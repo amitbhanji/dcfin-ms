@@ -1,48 +1,67 @@
 package com.userprofileservice;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.repository.service.EntitlementJpaRepository;
-import com.repository.service.EntitlementToUserProfileJpaRepository;
-import com.repository.service.UserProfileJpaRespository;
+import com.pagination.PaginationImplementation;
+import com.pagination.PaginationResponse;
 import com.repository.data.Entitlement;
 import com.repository.data.EntitlementToUserProfile;
 import com.repository.data.UserProfile;
+import com.repository.service.EntitlementJpaRepository;
+import com.repository.service.EntitlementToUserProfileJpaRepository;
+import com.repository.service.UserProfileJpaRespository;
+
+import jakarta.validation.Valid;
 
 
 @RestController
+@Validated
 public class UserProfileRestController {
 	@Autowired(required = true)
 	private UserProfileJpaRespository userProfileJpaRepositoryResource;
-/*
+	@Autowired
+	private PaginationImplementation paginationImplService;
+	
+	
+	@Autowired
+	private EntitlementJpaRepository entitlementJpaRepositoryResource ;
 	@Autowired(required = true)
-	//private UserProfileJpaRespository userProfileJpaRepositoryResource ;
-	@Autowired
-	//private EntitlementJpaRepository entitlementJpaRepositoryResource ;
-	@Autowired
-	//private EntitlementToUserProfileJpaRepository mappingJpaResource;
+	private EntitlementToUserProfileJpaRepository mappingJpaResource;
 	
 	@GetMapping("/profiles")
-	public List<UserProfile> retrieveProfiles()
+	public PaginationResponse retrieveProfiles(@RequestParam int pageNo,@Valid @RequestParam int pageSize)throws IllegalArgumentException
 	{
-		return userProfileJpaRepositoryResource.findAll();
+		Pageable records = PageRequest.of(pageNo, pageSize);
+		Page<UserProfile> recordsList=userProfileJpaRepositoryResource.findAll(records);
+		PaginationResponse resp = paginationImplService.getAllRecords(pageNo, pageSize, recordsList);
+		return resp;
 	}
 
+	@GetMapping("/list")
+	public ResponseEntity<List<UserProfile>> retrieveProfiles()
+	{
+		
+				
+		List<UserProfile> a=userProfileJpaRepositoryResource.findAll();
+				return ResponseEntity.ok(a);
+
+	}
 	@GetMapping("/profiles/{id}")
 	public Optional<UserProfile> retrieveProfileById(@PathVariable int id)throws Exception
 	{
@@ -53,32 +72,30 @@ public class UserProfileRestController {
 	}
 	//save userProfile
 	@PostMapping("/profiles")
-	public ResponseEntity<UserProfile> createProfile(@RequestBody UserProfile profile,@RequestBody List<Integer> entitlements)
+	public ResponseEntity<UserProfile> createProfile(@RequestBody UserProfileToEntitlementMapping requestObj)throws Exception
 	{
-		UserProfile savedProfile =userProfileJpaRepositoryResource.save(profile);
-		List<Integer> ents = entitlements;
+		UserProfile profileObj = new UserProfile();
+		profileObj.setDescription(requestObj.getDescription());
+		profileObj.setProfileName(requestObj.getProfileName());
+		profileObj.setCreateDate(requestObj.getCreateDate());
+		List<Integer> ents = requestObj.getEntIds();
 		List<Entitlement> entments = new ArrayList<>();
+		//List<UserProfile> profiles= new ArrayList<>();
 		for(int id:ents)
-			entments.add(entitlementJpaRepositoryResource.findById(id).get());
-		savedProfile.setEntitlements(entments);
-		//EntitlementToUserProfile entToProfile = new EntitlementToUserProfile(); 
-		//entToProfile.setEntitlements(entments);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedProfile.getUserProfileId()).toUri();
-		return ResponseEntity.created(location).build();
-	}
-	
-	public void saveMappings(UserProfile savedProfile ) 
-	{
+		entments.add(entitlementJpaRepositoryResource.findById(id).get());
+       // profileObj.setEntitlements(entments);
+		UserProfile savedProfile = userProfileJpaRepositoryResource.save(profileObj);
+		for(Entitlement e : entments)
+		{
 		EntitlementToUserProfile mappingEntity = new EntitlementToUserProfile();
 		mappingEntity.setUserProfileId(savedProfile.getUserProfileId());
 		mappingEntity.setDescription(savedProfile.getDescription());
-		List<Entitlement> entitlements = savedProfile.getEntitlements();
-		for(Entitlement e : entitlements)
-		{
-			mappingEntity.setEntitlementId(e.getEntitlementId());
-	      	mappingJpaResource.save(mappingEntity);
+		mappingEntity.setEntitlementId(e.getEntitlementId());	
+		mappingJpaResource.save(mappingEntity);
 		}
+		return ResponseEntity.ok(savedProfile);
 	}
+	
 	@PostMapping("/profiles/update/{id}")
 	public ResponseEntity<UserProfile> updateFirm(@RequestBody UserProfile profile,@PathVariable int id)
 	{
@@ -97,15 +114,5 @@ public class UserProfileRestController {
 	{
 		userProfileJpaRepositoryResource.deleteById(id);
 	}
-	*/
-	@GetMapping("/")
-	public String get()
-	{
-		return "hello world";
-	}
-	@GetMapping("/profiles")
-	public List<UserProfile> retrieveProfiles()
-	{
-		return userProfileJpaRepositoryResource.findAll();
-	}
+
 }
