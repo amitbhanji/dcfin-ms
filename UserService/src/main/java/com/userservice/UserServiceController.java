@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,10 +17,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pagination.response.PaginationImplementation;
+import com.pagination.response.PaginationResponse;
+import com.repository.data.Entitlement;
 import com.repository.data.User;
+import com.repository.data.UserProfile;
 import com.repository.service.UserJpaRepository;
 
 import jakarta.validation.Valid;
@@ -29,6 +37,22 @@ public class UserServiceController {
 	@Autowired
 	private UserJpaRepository userJpaRepository;
 	
+	@Autowired
+	private PaginationImplementation paginationImplService;
+	
+	@GetMapping("/records")
+	public PaginationResponse<User> getAllEntitlements()
+	{
+		Pageable records = PageRequest.of(0, 4);
+	    Page<User> recordsList = userJpaRepository.findAll(records);
+	   PaginationResponse<User> resp =paginationImplService.getAllRecords(0, 4,recordsList);
+	   // List<User> list =  recordsList.getContent();
+
+	    return resp;  
+	   
+	}
+
+
 	@GetMapping("/users/{id}")
 	public Optional<User> retrieveUserById(@PathVariable int id) throws Exception
 	{

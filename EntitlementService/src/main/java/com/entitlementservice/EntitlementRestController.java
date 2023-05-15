@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pagination.PaginationImplementation;
-import com.pagination.PaginationResponse;
+import com.pagination.response.PaginationImplementation;
+import com.pagination.response.PaginationResponse;
 import com.repository.data.Entitlement;
 import com.repository.service.EntitlementJpaRepository;
 
@@ -47,13 +47,15 @@ public class EntitlementRestController {
 	}
 	*/
 	@GetMapping("/records")
-	public Page<Entitlement> getAllEntitlements(@RequestParam int pageNo,@Valid @RequestParam int pageSize )throws Exception
+	public List<Entitlement> getAllEntitlements()
 	{
-	    Pageable records = PageRequest.of(pageNo, pageSize);
+	    //Pageable records = PageRequest.of(pageNo, pageSize);
+		Pageable records = PageRequest.of(0, 4);
 	    Page<Entitlement> recordsList = entitlementJpaRepositoryResource.findAll(records);
-	    //PaginationResponse<Entitlement> resp=paginationImplService.getAllRecords(pageNo, pageSize,recordsList);
-	    return recordsList;
-	    
+	 //   PaginationResponse<Entitlement> resp=paginationImplService.getAllRecords(pageNo, pageSize,recordsList);
+	    List<Entitlement> list =  recordsList.getContent();
+
+	    return entitlementJpaRepositoryResource.findAll();  
 	   
 	}
 

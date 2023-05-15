@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,10 +51,11 @@ public class UserProfile {
 			)
 	private List<Entitlement> entitlements;
 	
+	@JsonAnyGetter
 	public List<Entitlement> getEntitlements() {
 		return entitlements;
 	}
-
+@JsonSetter
 	public void setEntitlements(List<Entitlement> entitlements) {
 		this.entitlements = entitlements;
 	}

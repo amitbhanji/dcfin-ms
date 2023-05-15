@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pagination.PaginationImplementation;
-import com.pagination.PaginationResponse;
+import com.pagination.response.PaginationImplementation;
+import com.pagination.response.PaginationResponse;
 import com.repository.data.Entitlement;
 import com.repository.data.EntitlementToUserProfile;
 import com.repository.data.UserProfile;

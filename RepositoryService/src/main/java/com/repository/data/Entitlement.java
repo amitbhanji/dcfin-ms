@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="idp_entitlement")
+
 public class Entitlement {
 
 	@Id
