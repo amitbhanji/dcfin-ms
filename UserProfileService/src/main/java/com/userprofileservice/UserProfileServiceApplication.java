@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.exception.CustomizedUserProfileResponseEntityException;
+import com.pagination.response.PaginationImplementation;
 
 
 @Import(CustomizedUserProfileResponseEntityException.class)
@@ -15,6 +16,7 @@ import com.exception.CustomizedUserProfileResponseEntityException;
 @EnableJpaRepositories("com.repository.service")
 @EntityScan("com.repository.data")
 @ComponentScan(basePackages = "com.pagination")
+@ComponentScan(basePackageClasses = PaginationImplementation.class)
 public class UserProfileServiceApplication {
 
 	public static void main(String[] args) {

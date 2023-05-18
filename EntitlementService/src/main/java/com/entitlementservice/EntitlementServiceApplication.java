@@ -8,12 +8,14 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.exception.CustomizedEntitlementResponseEntityException;
+import com.pagination.response.PaginationImplementation;
 
 @SpringBootApplication
 @Import(CustomizedEntitlementResponseEntityException.class)
 @EnableJpaRepositories("com.repository.service")
 @EntityScan("com.repository.data")
-@ComponentScan(basePackages  = "com.pagination")
+@ComponentScan(basePackageClasses = { PaginationImplementation.class })
+@ComponentScan(basePackages = "com.pagination.response")
 public class EntitlementServiceApplication {
 
 	public static void main(String[] args) {

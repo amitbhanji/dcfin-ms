@@ -1,12 +1,18 @@
 package com.repository.data;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Past;
@@ -57,8 +63,24 @@ private int userId;
 	{
 		
 	}
-
 	
+	@JsonIgnore
+	@OneToMany
+	@JoinTable(
+			name="idp_user_profile_user",
+			joinColumns = @JoinColumn(name="idp_user_profile_user_userid"),
+			inverseJoinColumns = @JoinColumn(name="idp_user_profile_user_profileid")
+			)
+	
+	
+    private List<UserProfile> userProfiles;
+	
+	public List<UserProfile> getUserProfiles() {
+		return userProfiles;
+	}
+	public void setUserProfiles(List<UserProfile> userProfiles) {
+		this.userProfiles = userProfiles;
+	}
 	public int getUserId() {
 		return userId;
 	}

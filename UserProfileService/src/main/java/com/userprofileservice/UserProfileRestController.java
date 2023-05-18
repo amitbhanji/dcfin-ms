@@ -45,11 +45,11 @@ public class UserProfileRestController {
 	private EntitlementToUserProfileJpaRepository mappingJpaResource;
 	
 	@GetMapping("/profiles")
-	public PaginationResponse retrieveProfiles(@RequestParam int pageNo,@Valid @RequestParam int pageSize)throws IllegalArgumentException
+	public PaginationResponse<UserProfile> retrieveProfiles(@RequestParam int pageNo,@Valid @RequestParam int pageSize)throws IllegalArgumentException
 	{
 		Pageable records = PageRequest.of(pageNo, pageSize);
 		Page<UserProfile> recordsList=userProfileJpaRepositoryResource.findAll(records);
-		PaginationResponse resp = paginationImplService.getAllRecords(pageNo, pageSize, recordsList);
+		PaginationResponse<UserProfile> resp = paginationImplService.getAllRecords(pageNo, pageSize, recordsList);
 		return resp;
 	}
 

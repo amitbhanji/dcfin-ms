@@ -1,17 +1,11 @@
 package com.repository.data;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
-import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,7 +15,7 @@ public class EntitlementToUserProfile {
 	@Id
 	@Column(name="idp_entitlement_user_profile_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int EntitlementToUserProfileId;
+	private int entitlementToUserProfileId;
 	@Column(name="idp_entitlement_user_profile_description")
 	private String description;
 	@Column(name="idp_entitlement_user_profile_entitlement_id")
@@ -38,19 +32,8 @@ public class EntitlementToUserProfile {
 	{
 		
 	}
-	/*
-	@ManyToMany
-	@JoinTable(
-			name="idp_entitlement_user_profiles",
-			joinColumns = @JoinColumn(name="idp_entitlement_user_profile_userprofile_id"),
-			inverseJoinColumns = @JoinColumn(name="idp_entitlement_user_profile_entitlement_id")
-			
-			)
-	private List<Entitlement> entitlements;
-*/
-
 	public int getEntitlementToUserProfileId() {
-		return EntitlementToUserProfileId;
+		return entitlementToUserProfileId;
 	}
 
 	public String getDescription() {
@@ -72,7 +55,7 @@ public class EntitlementToUserProfile {
 
 
 	public void setEntitlementToUserProfileId(int entitlementToUserProfileId) {
-		EntitlementToUserProfileId = entitlementToUserProfileId;
+		this.entitlementToUserProfileId = entitlementToUserProfileId;
 	}
 
 	public void setDescription(String description) {
