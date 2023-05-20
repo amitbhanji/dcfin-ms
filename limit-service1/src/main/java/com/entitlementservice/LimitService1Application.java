@@ -1,13 +1,13 @@
-package com.example.microservice.limitservice;
+package com.entitlementservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LimitServiceApplication {
+public class LimitService1Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LimitServiceApplication.class, args);
+		SpringApplication.run(LimitService1Application.class, args);
 	}
 
 }
