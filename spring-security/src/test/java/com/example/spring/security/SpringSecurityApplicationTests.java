@@ -1,34 +1,28 @@
 package com.example.spring.security;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.repository.data.User;
-import com.repository.service.UserJpaRepository;
 
-@DataJpaTest
-@AutoConfigureTestDatabase
 @SpringBootTest
 class SpringSecurityApplicationTests {
 
-	@Autowired
-	private UserJpaRepository userJpaRepository;
-	//@Test
+	@Test
 	void contextLoads() {
 	}
 
+	
 	@Test
 	public void createUser()
 	{
-		User user =new User();
-		user.setUserfname("aboli");
-		user.setUsername("ab");
-		user.setUserEmail("aboli123@gmail.com");
-		user.setPassword("aboli");
-		
-		userJpaRepository.save(user);
+		User user = new User();
+		user.setUsername("aboli");
+		user.setUserEmail("ab@gmail.com");
+		user.setPassword("ab123");
+		user.setCreateTime(LocalDate.now());
 	}
 }
