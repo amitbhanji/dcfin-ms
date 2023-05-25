@@ -1,6 +1,12 @@
 package com.entitlementservice;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
+
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +21,7 @@ import com.repository.service.EntitlementJpaRepository;
 //@EnableJpaRepositories("com.repository.service")
 //@EntityScan("com.repository.data")
 
+//@DataJpaTest
 @SpringBootTest
 public class EntitlementServiceApplicationTests {
 
@@ -30,9 +37,14 @@ public class EntitlementServiceApplicationTests {
 
 		//jparepo.findById(5);
 		Entitlement ent = new Entitlement();
-		ent.setEntitlementName("Tester 13");
-		ent.setEntitlementDescription("Tester level 13");
+		ent.setEntitlementName("Tester 14");
+		ent.setEntitlementDescription("Tester level 14");
 		ent.setCreateDateTime(LocalDateTime.now());
-		jparepo.save(ent);
+		Entitlement savedEnt=jparepo.save(ent);
+		Optional<Entitlement> ent1 = jparepo.findById(savedEnt.getEntitlementId());
+		Entitlement ent2 =  ent1.get();
+		assertTrue(ent.getEntitlementId()==ent2.getEntitlementId());
+
+	
 	}
 }

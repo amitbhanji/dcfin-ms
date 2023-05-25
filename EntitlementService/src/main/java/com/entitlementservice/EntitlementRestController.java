@@ -83,8 +83,11 @@ public class EntitlementRestController {
 		String obj1 = Integer.toString(id1);
 		return ResponseEntity.ok(obj + obj1);
 	}
-
+    @GetMapping("")
+    public String viewHomePage()
+    
 	{
+		return "index";
 
 	}
 }
