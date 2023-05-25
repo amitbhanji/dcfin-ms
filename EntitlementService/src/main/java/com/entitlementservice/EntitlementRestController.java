@@ -92,12 +92,12 @@ public class EntitlementRestController {
 		return "index";
 
 	}
-    @GetMapping("/entitlementList")
-    public String listEntitlements(Model m)
+    @GetMapping("entitlementlist")
+    public String listEntitlements()
     
 	{
     	List<Entitlement> ents = entitlementJpaRepositoryResource.findAll();
-    	m.addAttribute("list",ents);
+    //m.addAttribute("list",ents);
 		return "entitlements";
 
 	}
