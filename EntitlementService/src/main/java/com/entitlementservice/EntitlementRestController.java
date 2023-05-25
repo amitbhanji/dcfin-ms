@@ -3,11 +3,13 @@ package com.entitlementservice;
 import java.net.URI;
 import java.util.Optional;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -90,4 +92,14 @@ public class EntitlementRestController {
 		return "index";
 
 	}
+    @GetMapping("/entitlementList")
+    public String listEntitlements(Model m)
+    
+	{
+    	List<Entitlement> ents = entitlementJpaRepositoryResource.findAll();
+    	m.addAttribute("list",ents);
+		return "entitlements";
+
+	}
+    
 }
