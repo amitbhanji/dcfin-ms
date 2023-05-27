@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.pagination.response.PaginationImplementation;
@@ -92,14 +93,25 @@ public class EntitlementRestController {
 		return "index";
 
 	}
-    @GetMapping("entitlementlist")
-    public String listEntitlements()
+    @GetMapping("login")
+    public ModelAndView loginPage()
     
 	{
-    	List<Entitlement> ents = entitlementJpaRepositoryResource.findAll();
-    //m.addAttribute("list",ents);
-		return "entitlements";
+    	ModelAndView a = new ModelAndView();
+    	a.setViewName("login");
+		return a;
 
 	}
+    @GetMapping("entitlementlist")
+    public ModelAndView listEntitlements()
+    
+	{   ModelAndView m = new ModelAndView();
+    	List<Entitlement> ents = entitlementJpaRepositoryResource.findAll();
+        m.addObject("list",ents);
+        m.setViewName("entitlements");
+		return m;
+
+	}
+    
     
 }
