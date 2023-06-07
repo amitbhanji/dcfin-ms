@@ -5,15 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.boot.test.json.JsonContent;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +32,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.pagination.response.PaginationImplementation;
 import com.pagination.response.PaginationResponse;
+import com.repository.data.Entitlement;
 import com.repository.data.User;
 import com.repository.data.UserProfile;
 import com.repository.data.UserProfileToUser;
@@ -36,6 +48,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @Validated
+
 public class UserServiceController {
 
 	@Autowired
@@ -144,10 +157,55 @@ public class UserServiceController {
 
 	}
 	
-	@PostMapping("process_login")
-	public String doLogin()
+	@GetMapping("/")
+	public ModelAndView doLogin()
 	{
-		return "users";
+
+		//List<User> users= userJpaRepository.findAll();
+		ModelAndView m = new ModelAndView();
+      //  m.addObject("list",users);
+        m.setViewName("index");
+		return m;
 	}
+	
+	@Bean
+	public UserDetailsService userDetailsService()
+	{
+	  return new CustomUserDetailsService( userJpaRepository);	
+	}
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder()
+	{
+		return new BCryptPasswordEncoder();
+	}
+	
+	
+	   @Bean
+	   public DaoAuthenticationProvider authenticationProvider()
+	   {
+		   DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		   authProvider.setUserDetailsService(userDetailsService());
+		   authProvider.setPasswordEncoder(passwordEncoder());
+		   return authProvider;
+		 
+	   }
+	   
+	   private void Configure(AuthenticationManagerBuilder auth) throws Exception {
+
+		   auth.authenticationProvider(authenticationProvider());
+	}
+	   private void Configure(HttpSecurity http)throws Exception {
+		   http.authorizeHttpRequests()
+           .requestMatchers("/").permitAll()
+           .requestMatchers("/edit/*", "/delete/*").hasRole("batch")
+           .anyRequest().authenticated()
+           .and()
+           .formLogin()
+           .and()
+           .logout()
+           .and()
+           .exceptionHandling().accessDeniedPage("/403")
+           ;
+	   }
 
 }
