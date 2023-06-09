@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Product Manager</title>
+</head>
+<body>
+<div align="center">	
+	<div sec:authorize="hasAuthority('admin')" >
+		<h3 th:inline="text">Welcome</h3>
+	</div>
+	
+					<a sec:authorize="hasRole('batch')" th:href="@{'/edit/' + }">Edit</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<a sec:authorize="hasRole('batch')" th:href="@{'/delete/' +}">Delete</a>
+			
+	<!--table border="1" cellpadding="10">
+		<thead>
+			<tr>
+				<th>User ID</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Password</th>		
+				
+				<th sec:authorize="hasAuthority('admin')">Actions</th>				
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="user : ${list}">
+				<td th:text="${user.userId}">Product ID</td>
+				<td th:text="${user.username}">Name</td>
+				<td th:text="${user.userEmail}">Brand</td>
+				<td th:text="${user.password}">Made in</td>
+				
+			</tr>
+		</tbody>
+	</table-->
+</div>
+</body>
+</html>

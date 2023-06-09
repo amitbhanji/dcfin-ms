@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -64,8 +66,8 @@ private int userId;
 		
 	}
 	
-	@JsonIgnore
-	@OneToMany
+	@JsonIgnore()
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
 			name="idp_user_profile_user",
 			joinColumns = @JoinColumn(name="idp_user_profile_user_userid"),
